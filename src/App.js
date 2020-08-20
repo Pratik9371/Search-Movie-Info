@@ -12,21 +12,20 @@ class App extends Component {
     this.state = {
       searchText: "",
       movies: [],
-      currentMovie: null
+      currentMovie: null,
     };
     this.api_url = "http://www.omdbapi.com/?apikey=a90e8309";
   }
 
-  handleInput = e => {
+  handleInput = (e) => {
     this.setState({ searchText: e.target.value });
   };
 
-  search = e => {
+  search = (e) => {
     e.preventDefault();
     fetch(`${this.api_url}&s=${this.state.searchText}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ movies: data.Search });
       })
       .catch(console.log);
@@ -40,10 +39,10 @@ class App extends Component {
   //   this.setState({ currentMovie: newCurrentMovie });
   // };
 
-  viewMovieInfo = id => {
+  viewMovieInfo = (id) => {
     fetch(`${this.api_url}&i=${id}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ currentMovie: data });
       });
   };
