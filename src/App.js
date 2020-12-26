@@ -23,10 +23,17 @@ class App extends Component {
 
   search = (e) => {
     e.preventDefault();
+    if (this.state.searchText == "") {
+      return;
+    }
     fetch(`${this.api_url}&s=${this.state.searchText}`)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ movies: data.Search });
+        if (data.Response == "True") {
+          this.setState({ movies: data.Search });
+        } else {
+          alert(data.Error);
+        }
       })
       .catch(console.log);
   };
