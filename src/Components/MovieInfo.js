@@ -12,14 +12,12 @@ class MovieInfo extends Component {
       <div className="container">
         <div className="jumbotron bg-light">
           <div className="row">
-            <div className="col-md-2">
-              <i className="fa fa-arrow-left mb-5 mr-1"></i>
-              <span
+            <div className="col-md-2" onClick={this.props.closeMovieInfo}>
+              <i
+                className="fa fa-arrow-left mb-5 mr-1"
                 style={{ cursor: "pointer" }}
-                onClick={this.props.closeMovieInfo}
-              >
-                Go Back
-              </span>
+              ></i>
+              <span style={{ cursor: "pointer" }}>Go Back</span>
             </div>
           </div>
           <div className="row">

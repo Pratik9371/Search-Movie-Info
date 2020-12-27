@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Results from "./Components/Results";
 import Result from "./Components/Result";
 import MovieInfo from "./Components/MovieInfo.js";
+import swal from "sweetalert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class App extends Component {
       searchText: "",
       movies: [],
       currentMovie: null,
+      loading: false,
     };
     this.api_url = "http://www.omdbapi.com/?apikey=a90e8309";
   }
@@ -24,18 +27,31 @@ class App extends Component {
   search = (e) => {
     e.preventDefault();
     if (this.state.searchText == "") {
+      swal({
+        title: "Enter a movie name",
+        icon: "warning",
+      });
       return;
     }
+    this.setState({ loading: true });
     fetch(`${this.api_url}&s=${this.state.searchText}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.Response == "True") {
           this.setState({ movies: data.Search });
+          this.setState({ loading: false });
         } else {
-          alert(data.Error);
+          swal({
+            title: data.Error,
+            icon: "error",
+          });
+          this.setState({ loading: false });
         }
       })
-      .catch(console.log);
+      .catch((error) => {
+        console.log(error);
+        this.setState({ loading: false });
+      });
   };
 
   // viewMovieInfo = id => {
@@ -56,6 +72,10 @@ class App extends Component {
 
   closeMovieInfo = () => {
     this.setState({ currentMovie: null });
+  };
+
+  loader = () => {
+    return <CircularProgress color="secondary" />;
   };
 
   render() {
